@@ -79,6 +79,15 @@ class Trie {
     }
 }
 
+function refill_dictionary() {
+    dictionary.length = 0;
+    for (let i = 1; i < pattern_list.childNodes.length; i++) {
+       dictionary.push(pattern_list.childNodes[i].innerText.slice(0, -6));
+    }
+    console.log(dictionary);
+}
+
+const pattern_list = document.querySelector('#pattern-list');
 const dictionary = ["he", "she", "his", "hers"];
 const alpha = 26;
 let trie = new Trie(alpha);
@@ -104,3 +113,66 @@ for (let i = 0; i < text.length; i++) {
         console.log(text.slice(i - 5, i + 1));
     }
 }
+
+let cy = cytoscape({
+
+    container: document.getElementById('cy'),
+  
+    style: cytoscape.stylesheet()
+    .selector('edge')
+        .css({
+          'width': 3,
+          'line-color': 'black',
+          'target-arrow-color': '#369',
+          'target-arrow-shape': 'triangle',
+          'label': 'data(label)',
+          'font-size': '14px',
+          'color': 'black'
+        })
+      .selector('node')
+        .css({
+          'content': 'data(id)',
+          'text-valign': 'center',
+          'color': 'white',
+          'text-outline-width': 2,
+          'text-outline-color': 'black',
+          'background-color': 'red',
+            shape: 'hexagon'
+        })
+      .selector(':selected')
+        .css({
+          'background-color': 'black',
+          'line-color': 'yellow',
+          'target-arrow-color': 'black',
+          'source-arrow-color': 'black',
+          'text-outline-color': 'black'
+        }),
+  
+    layout: {
+      name: 'grid',
+      rows: 2
+    }
+  
+  });
+      
+  cy.add([
+      { group: 'nodes',data: { id: 'n1', name:'n11' }, position: { x: 50, y: 200 } },
+      { group: 'nodes',data: { id: 'n2' }, position: { x: 131, y: 226 } },
+      { group: 'nodes',data: { id: 'n3' }, position: { x: 128, y: 143 } },
+      { group: 'nodes',data: { id: 'n4' }, position: { x: 283, y: 142 } },
+      { group: 'nodes',data: { id: 'n5' }, position: { x: 191, y: 62 } },
+      { group: 'nodes',data: { id: 'n6' }, position: { x: 66, y: 83 } },
+      { group: 'edges',data: { id: 'e0', source: 'n1', target: 'n2', label: 7 } },
+      { group: 'edges',data: { id: 'e1', source: 'n2', target: 'n3', label: 10 } },
+      { group: 'edges',data: { id: 'e2', source: 'n1', target: 'n6', label: 14 } },
+      { group: 'edges',data: { id: 'e3', source: 'n1', target: 'n3', label: 9 } },
+      { group: 'edges',data: { id: 'e4', source: 'n2', target: 'n4', label: 15 } },
+      { group: 'edges',data: { id: 'e5', source: 'n3', target: 'n4', label: 11 } },
+      { group: 'edges',data: { id: 'e6', source: 'n3', target: 'n6', label: 2 } },
+      { group: 'edges',data: { id: 'e7', source: 'n6', target: 'n5', label: 9 } },  
+      { group: 'edges',data: { id: 'e8', source: 'n5', target: 'n4', label: 6 } },
+  ]);
+  cy.on('click', 'node', function(evt){
+    var node = evt.target; 
+    console.log(node.position());
+  })

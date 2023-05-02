@@ -1,0 +1,69 @@
+body {
+	font-family: sans-serif;
+	line-height: 1.5;
+}
+
+.none { display: none; }
+
+.red { border: 1px solid red; }
+.green { border: 1px solid green; }
+.blue { border: 1px solid blue; }
+
+.red-text { color: red; }
+.green-text { color: green; }
+
+/* Шапка */
+
+header {
+	padding: 30px 30px 40px;
+	background-color: #f7e017;
+	margin-bottom: 30px;
+}
+
+header h1 {
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 38px;
+	font-weight: 600;
+	margin-bottom: 5px;
+}
+
+.school-name {
+	font-size: 20px;
+	font-weight: 600;
+	color: #bba800;
+}
+
+/* Общие стили */
+
+.dom-example {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.example-block {
+	margin: 30px 0px;
+}
+
+.text-block {
+	background-color: rgb(204, 214, 223);
+	padding: 15px;
+	height: 30px;
+	font-size: 22px;
+}
+
+
+.simple-todo {
+	margin-left: 10px;
+}
+
+#cy {
+    width: 3000px;
+    height: 500px;
+    display: block;
+    background-color: #fff;
+  }
+
+
