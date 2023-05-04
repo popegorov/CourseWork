@@ -1,4 +1,3 @@
-
 function ord(char) {
     return char.charCodeAt(0) - 'a'.charCodeAt(0);
 }
@@ -11,6 +10,7 @@ class Node {
         this.parent_char = parent_char;
         this.suffix_link = undefined;
         this.go_links = new Array(alpha);
+        this.index = 0;
     }
 }
 
@@ -18,6 +18,7 @@ class Trie {
     constructor(alpha) {
         this.alpha = alpha;
         this.nodes = new Array(new Node(alpha, undefined, undefined));
+        this.burr_edges = new Array(0);
         this.root = this.nodes[0];
     }
 
@@ -34,7 +35,10 @@ class Trie {
         for (let i = 0; i < word.length; i++) {
             if (v.next[ord(word[i])] === undefined) {
                 this.nodes.push(new Node(this.alpha, v, word[i]));
+                this.last_node().index = this.size() - 1;
                 v.next[ord(word[i])] = this.last_node();
+                this.burr_edges.push(v.index);
+                this.burr_edges.push(this.last_node().index);
             }
             v = v.next[ord(word[i])]
         }
@@ -79,15 +83,85 @@ class Trie {
     }
 }
 
-function refill_dictionary() {
-    dictionary.length = 0;
-    for (let i = 1; i < pattern_list.childNodes.length; i++) {
-       dictionary.push(pattern_list.childNodes[i].innerText.slice(0, -6));
+function update_graph() {
+    let trie = new Trie(alpha);
+
+    for (let elem of dictionary) {
+        trie.add_word(elem);
     }
-    console.log(dictionary);
+
+    let cy = cytoscape({
+
+        container: document.getElementById('cy'),
+      
+        style: cytoscape.stylesheet()
+        .selector('edge')
+            .css({
+              'width': 1,
+              'line-color': 'gray',
+              'label': 'data(label)',
+              'font-size': '25px',
+              'color': 'black'
+            })
+          .selector('node')
+            .css({
+              'content': 'data(id)',
+              'text-valign': 'center',
+              'color': 'white',
+              'text-outline-width': 2,
+              'text-outline-color': 'black',
+              'background-color': 'red',
+                shape: 'hexagon'
+            })
+          .selector(':selected')
+            .css({
+              'background-color': 'black',
+              'line-color': 'yellow',
+              'target-arrow-color': 'black',
+              'source-arrow-color': 'black',
+              'text-outline-color': 'black'
+            }),
+      
+        layout: {
+          name: 'grid',
+          rows: 2
+        }
+      
+    });
+          
+    let nodes_and_edges = new Array(0);
+    if (trie.size() !== 1) {
+        for (let i = 0; i < trie.size(); i++) {
+            nodes_and_edges.push({ group: 'nodes', data : {id: `${i}`} });
+        }
+    }
+    
+    for (let i = 0; i < trie.burr_edges.length / 2; i++) {
+        const source = trie.burr_edges[2 * i];
+        const target = trie.burr_edges[2 * i + 1];
+        const label = trie.nodes[target].parent_char;
+        nodes_and_edges.push({ group: 'edges', data: {id: `e${i}`, source: `${source}`, target: `${target}`, label: `${label}`} });
+    }
+    
+    console.log(nodes_and_edges);
+    cy.add(nodes_and_edges);
+    cy.on('click', 'node', function(evt){
+    var node = evt.target; 
+    console.log(node.position());
+    })
+    
+    let layout = cy.elements().layout({
+        name: 'breadthfirst',
+        fit: true,
+        directed: true
+    });
+      
+    layout.run();
+
 }
 
 const pattern_list = document.querySelector('#pattern-list');
+const form = document.querySelector('#todo-form');
 const dictionary = ["he", "she", "his", "hers"];
 const alpha = 26;
 let trie = new Trie(alpha);
@@ -95,84 +169,25 @@ let trie = new Trie(alpha);
 for (let elem of dictionary) {
     trie.add_word(elem);
 }
-console.log(trie.size());
+// console.log(trie.size());
 
-for (let elem of dictionary) {
-    console.log(trie.find_in_burr(elem));
-}
+// for (let elem of dictionary) {
+//     console.log(trie.find_in_burr(elem));
+// }
 
-console.log(trie.find_in_burr("tim"));
-console.log("------------");
+// console.log(trie.find_in_burr("tim"));
+// console.log("------------");
 
-let text = "rhinohearshervoice";
+// let text = "rhinohearshervoice";
 
-let v = trie.root;
-for (let i = 0; i < text.length; i++) {
-    v = trie.get_go_link(v, text[i]);
-    if (v.is_teminal) {
-        console.log(text.slice(i - 5, i + 1));
-    }
-}
+// let v = trie.root;
+// for (let i = 0; i < text.length; i++) {
+//     v = trie.get_go_link(v, text[i]);
+//     if (v.is_teminal) {
+//         console.log(text.slice(i - 5, i + 1));
+//     }
+// }
 
-let cy = cytoscape({
+update_graph();
 
-    container: document.getElementById('cy'),
-  
-    style: cytoscape.stylesheet()
-    .selector('edge')
-        .css({
-          'width': 3,
-          'line-color': 'black',
-          'target-arrow-color': '#369',
-          'target-arrow-shape': 'triangle',
-          'label': 'data(label)',
-          'font-size': '14px',
-          'color': 'black'
-        })
-      .selector('node')
-        .css({
-          'content': 'data(id)',
-          'text-valign': 'center',
-          'color': 'white',
-          'text-outline-width': 2,
-          'text-outline-color': 'black',
-          'background-color': 'red',
-            shape: 'hexagon'
-        })
-      .selector(':selected')
-        .css({
-          'background-color': 'black',
-          'line-color': 'yellow',
-          'target-arrow-color': 'black',
-          'source-arrow-color': 'black',
-          'text-outline-color': 'black'
-        }),
-  
-    layout: {
-      name: 'grid',
-      rows: 2
-    }
-  
-  });
-      
-  cy.add([
-      { group: 'nodes',data: { id: 'n1', name:'n11' }, position: { x: 50, y: 200 } },
-      { group: 'nodes',data: { id: 'n2' }, position: { x: 131, y: 226 } },
-      { group: 'nodes',data: { id: 'n3' }, position: { x: 128, y: 143 } },
-      { group: 'nodes',data: { id: 'n4' }, position: { x: 283, y: 142 } },
-      { group: 'nodes',data: { id: 'n5' }, position: { x: 191, y: 62 } },
-      { group: 'nodes',data: { id: 'n6' }, position: { x: 66, y: 83 } },
-      { group: 'edges',data: { id: 'e0', source: 'n1', target: 'n2', label: 7 } },
-      { group: 'edges',data: { id: 'e1', source: 'n2', target: 'n3', label: 10 } },
-      { group: 'edges',data: { id: 'e2', source: 'n1', target: 'n6', label: 14 } },
-      { group: 'edges',data: { id: 'e3', source: 'n1', target: 'n3', label: 9 } },
-      { group: 'edges',data: { id: 'e4', source: 'n2', target: 'n4', label: 15 } },
-      { group: 'edges',data: { id: 'e5', source: 'n3', target: 'n4', label: 11 } },
-      { group: 'edges',data: { id: 'e6', source: 'n3', target: 'n6', label: 2 } },
-      { group: 'edges',data: { id: 'e7', source: 'n6', target: 'n5', label: 9 } },  
-      { group: 'edges',data: { id: 'e8', source: 'n5', target: 'n4', label: 6 } },
-  ]);
-  cy.on('click', 'node', function(evt){
-    var node = evt.target; 
-    console.log(node.position());
-  })
+

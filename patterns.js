@@ -1,11 +1,12 @@
 function DeleteButton () {
     const cur_pattern = this.closest('li').innerText.slice(0, -6);
-    for (let i = 0; i < dictionary_of_patterns.length; i++) {
-        if (dictionary_of_patterns[i] === cur_pattern) {
-            dictionary_of_patterns.splice(i, 1)
+    for (let i = 0; i < dictionary.length; i++) {
+        if (dictionary[i] === cur_pattern) {
+            dictionary.splice(i, 1)
         }
     }
     this.closest('li').remove();
+    update_graph();
 }
 
 function formHandler(event) {
@@ -18,32 +19,30 @@ function formHandler(event) {
 
     const text = input_text.value;
     const pattern = document.createElement('li');
-    dictionary_of_patterns.push(text);
+    dictionary.push(text);
     pattern.innerText = text;
     delete_button.addEventListener('click', DeleteButton);
     pattern.append(delete_button); 
 
-    todo_list.append(pattern);
-    console.log(dictionary_of_patterns)
+    pattern_list.append(pattern);
+    console.log(dictionary)
 
     input_text.value = '';
-    input_text.focus(); 
+    update_graph();
+    input_text.focus();
 }
 
 
 function DeleteAll() {
-    todo_list.innerHTML = '';
-    dictionary_of_patterns.length = 0;
+    pattern_list.innerHTML = '';
+    dictionary.length = 0;
+    update_graph()
 }
 
 const input_text = document.querySelector('#todo-input');
-const todo_list = document.querySelector('#pattern-list');
-const form = document.querySelector('#todo-form');
 const all = document.querySelector('#deleteall');
 
-const dictionary_of_patterns = ["he", "she", "his", "hers"];
-
-for (let item of dictionary_of_patterns) {
+for (let item of dictionary) {
     const delete_button = document.createElement('button');
     delete_button.setAttribute('role', 'button');
     delete_button.innerText = 'Delete';
@@ -54,7 +53,7 @@ for (let item of dictionary_of_patterns) {
     delete_button.addEventListener('click', DeleteButton)
     pattern.append(delete_button); 
 
-    todo_list.append(pattern);
+    pattern_list.append(pattern);
 }
 
 form.addEventListener('submit', formHandler);
