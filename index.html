@@ -13,27 +13,36 @@
 
         <header>
             <h1>Aho Corasick Algorythm</h1>
-            <div class="school-name">My project</div>
+            <div class="project-name">My project</div>
         </header>
 
-        <div class="simple-todo">
+        <div class="pattern_list">
             <div>
                 <h2>
                     Список паттернов для поиска
-                    <button id="deleteall"> Delete All</button>
+                    <button id="delete-all">Delete All</button>
                 </h2>
                 <ul id="pattern-list">
                 </ul>
             </div>
-            <form id="todo-form">
-                <input id="todo-input" type="text" placeholder="Введите новый паттерн" />
+            <form id="pattern-form">
+                <input id="pattern-input" type="text" placeholder="Введите новый паттерн" />
                 <button type="submit">Добавить паттерн</button>
             </form>
         </div>
 
         <div id="cy"></div>
 
-        <script src="./main.js"></script>
+        <div id="text" class="text-block"></div>
+
+        <form id="text-form">
+            <input id="text-input" type="text" placeholder="Введите текст " />
+            <button type="submit">Отправить</button>
+        </form>
+
+        <script src="./constants.js"></script>
+        <script src="./algorythm.js"></script>
+        <script src="./visual_graph.js"></script>
         <script src="./patterns.js"></script>
 	</body>
 </html>

@@ -83,87 +83,6 @@ class Trie {
     }
 }
 
-function update_graph() {
-    let trie = new Trie(alpha);
-
-    for (let elem of dictionary) {
-        trie.add_word(elem);
-    }
-
-    let cy = cytoscape({
-
-        container: document.getElementById('cy'),
-      
-        style: cytoscape.stylesheet()
-        .selector('edge')
-            .css({
-              'width': 1,
-              'line-color': 'gray',
-              'label': 'data(label)',
-              'font-size': '25px',
-              'color': 'black'
-            })
-          .selector('node')
-            .css({
-              'content': 'data(id)',
-              'text-valign': 'center',
-              'color': 'white',
-              'text-outline-width': 2,
-              'text-outline-color': 'black',
-              'background-color': 'red',
-                shape: 'hexagon'
-            })
-          .selector(':selected')
-            .css({
-              'background-color': 'black',
-              'line-color': 'yellow',
-              'target-arrow-color': 'black',
-              'source-arrow-color': 'black',
-              'text-outline-color': 'black'
-            }),
-      
-        layout: {
-          name: 'grid',
-          rows: 2
-        }
-      
-    });
-          
-    let nodes_and_edges = new Array(0);
-    if (trie.size() !== 1) {
-        for (let i = 0; i < trie.size(); i++) {
-            nodes_and_edges.push({ group: 'nodes', data : {id: `${i}`} });
-        }
-    }
-    
-    for (let i = 0; i < trie.burr_edges.length / 2; i++) {
-        const source = trie.burr_edges[2 * i];
-        const target = trie.burr_edges[2 * i + 1];
-        const label = trie.nodes[target].parent_char;
-        nodes_and_edges.push({ group: 'edges', data: {id: `e${i}`, source: `${source}`, target: `${target}`, label: `${label}`} });
-    }
-    
-    console.log(nodes_and_edges);
-    cy.add(nodes_and_edges);
-    cy.on('click', 'node', function(evt){
-    var node = evt.target; 
-    console.log(node.position());
-    })
-    
-    let layout = cy.elements().layout({
-        name: 'breadthfirst',
-        fit: true,
-        directed: true
-    });
-      
-    layout.run();
-
-}
-
-const pattern_list = document.querySelector('#pattern-list');
-const form = document.querySelector('#todo-form');
-const dictionary = ["he", "she", "his", "hers"];
-const alpha = 26;
 let trie = new Trie(alpha);
 
 for (let elem of dictionary) {
@@ -187,7 +106,3 @@ for (let elem of dictionary) {
 //         console.log(text.slice(i - 5, i + 1));
 //     }
 // }
-
-update_graph();
-
-
