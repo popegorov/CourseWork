@@ -21,6 +21,13 @@
                 <h2>
                     Список паттернов для поиска
                     <button id="delete-all">Delete All</button>
+                    <button id="build">Build</button>
+                    <a>
+                        <img src="./images/debug_on.png" class="debug" id="debug-pic">
+                    </a>
+                    <a id="next">
+                        <img src="./images/next.png" class="debug" id="next-pic">
+                    </a>
                 </h2>
                 <ul id="pattern-list">
                 </ul>
@@ -40,9 +47,15 @@
             <button type="submit">Отправить</button>
         </form>
 
-        <script src="./constants.js"></script>
+        <form id="interval-form">
+            <input id="interval-input" type="text" placeholder="Интервал в милисек " />
+            <button type="submit">Применить</button>
+        </form>
+
+        <script src="./globals.js"></script>
         <script src="./algorythm.js"></script>
         <script src="./visual_graph.js"></script>
-        <script src="./patterns.js"></script>
+        <script src="./web_functionality.js"></script>
+        <script src="./main.js"></script>
 	</body>
 </html>

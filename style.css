@@ -29,6 +29,11 @@ h1 {
 	font-size: 22px;
 }
 
+.debug {
+    width: 20px;
+    height: 20px;
+}
+
 
 .pattern_list {
 	margin-left: 10px;

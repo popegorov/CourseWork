@@ -1,5 +1,5 @@
 function ord(char) {
-    return char.charCodeAt(0) - 'a'.charCodeAt(0);
+    return char.charCodeAt(0) - 'a'.charCodeAt(0); // функция переводящая букву латинского алфавита в её порядковый номер
 }
 
 class Node {
@@ -45,17 +45,6 @@ class Trie {
         v.is_teminal = true;
     }
 
-    find_in_burr(word) {
-        let v = this.root;
-        for (let i = 0; i < word.length; i++) {
-            if (v.next[ord(word[i])] === undefined) {
-                return false;
-            }
-            v = v.next[ord(word[i])]
-        }
-        return v.is_teminal;
-    }
-
     get_suffix_link(node) {
         if (node.suffix_link === undefined) {
             if (node === this.root || node.parent === this.root) {
@@ -65,6 +54,8 @@ class Trie {
             }
         }
 
+        auto_links.push(node.index, node.suffix_link.index);
+        type_of_links.push("suffix");
         return node.suffix_link;
     }
 
@@ -78,31 +69,10 @@ class Trie {
                 node.go_links[ord(char)] = this.get_go_link(this.get_suffix_link(node), char);
             }
         }
-
+        
+        auto_links.push(node.index, node.go_links[ord(char)].index);
+        type_of_links.push("go");
         return node.go_links[ord(char)];
     }
 }
 
-let trie = new Trie(alpha);
-
-for (let elem of dictionary) {
-    trie.add_word(elem);
-}
-// console.log(trie.size());
-
-// for (let elem of dictionary) {
-//     console.log(trie.find_in_burr(elem));
-// }
-
-// console.log(trie.find_in_burr("tim"));
-// console.log("------------");
-
-// let text = "rhinohearshervoice";
-
-// let v = trie.root;
-// for (let i = 0; i < text.length; i++) {
-//     v = trie.get_go_link(v, text[i]);
-//     if (v.is_teminal) {
-//         console.log(text.slice(i - 5, i + 1));
-//     }
-// }
