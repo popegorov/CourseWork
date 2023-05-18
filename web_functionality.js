@@ -1,5 +1,6 @@
 function deleteAllHandler() {
     pattern_list.innerHTML = '';
+    text_to_check.innerHTML = '';
     dictionary.length = 0;
     update_graph();
 }
@@ -29,13 +30,25 @@ function createPattern(text) {
     return pattern;
 }
 
+function checkWord(word) {
+    for (let sym of word) {
+        if (alpha === 26 && (sym.charCodeAt(0) < 'a'.charCodeAt(0) || sym.charCodeAt(0) > 'z'.charCodeAt(0))) {
+            return false;
+        } else if (alpha === 33 && (sym.charCodeAt(0) < 'а'.charCodeAt(0) || sym.charCodeAt(0) > 'ё'.charCodeAt(0))) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function patternFormHandler(event) {
     event.preventDefault();
 
-    const pattern = createPattern(pattern_input.value);
-    dictionary.push(pattern_input.value);
-
-    pattern_list.append(pattern);
+    if (checkWord(pattern_input.value.toLowerCase())) {
+        const pattern = createPattern(pattern_input.value);
+        dictionary.push(pattern_input.value);
+        pattern_list.append(pattern);
+    }
 
     pattern_input.value = '';
     update_graph();
@@ -44,8 +57,11 @@ function patternFormHandler(event) {
 
 function textFormHandler(event) {
     event.preventDefault();
-    text_to_check.innerText = text_input.value.toLowerCase();
+    if (checkWord(text_input.value.toLowerCase())) {
+        text_to_check.innerText = text_input.value.toLowerCase();
+    }
     text_input.value = '';
+    text_input.focus();
 }
 
 function buildHandler() {
@@ -60,6 +76,7 @@ function intervalHandler(event) {
         interval = Number(interval_input.value);
     }
     interval_input.value = '';
+    interval_input.focus();
 }
 
 function nextHandler() {
@@ -83,5 +100,20 @@ function debugHandler() {
         interval_form.innerHTML = '';
 
         this.src = "./images/debug_on.png";
+    }
+}
+
+function flagHandler() {
+    update_graph();
+    deleteAllHandler();
+    alpha = 33 + 26 - alpha;
+
+    if (alpha === 33) {
+        console.log(alpha);
+        flag_pic.innerHTML = '<img src="./images/russia.svg.png" class="debug" id="next-pic">';
+        this.src = "./images/russia.svg.png";
+    } else {
+        flag_pic.innerHTML = '<img src="./images/britain.svg.png" class="debug" id="next-pic">';
+        this.src = "./images/britain.svg.png";
     }
 }

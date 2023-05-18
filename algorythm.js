@@ -1,5 +1,12 @@
 function ord(char) {
-    return char.charCodeAt(0) - 'a'.charCodeAt(0); // функция переводящая букву латинского алфавита в её порядковый номер
+    if (alpha === 26) {
+        return char.charCodeAt(0) - 'a'.charCodeAt(0); // функция переводящая букву латиницы в её порядковый номер
+    } else if (char !== 'ё') {
+        return char.charCodeAt(0) - 'а'.charCodeAt(0); // функция переводящая букву кириллицы в её порядковый номер
+    } else {
+        return alpha - 1; // присваиваем букве ё номер 32, так как её номер выбивается из общего правила
+    }
+    
 }
 
 class Node {
@@ -11,6 +18,8 @@ class Node {
         this.suffix_link = undefined;
         this.go_links = new Array(alpha);
         this.index = 0;
+        this.suffix_words = new Array(0);
+        this.word = '';
     }
 }
 
@@ -36,6 +45,7 @@ class Trie {
             if (v.next[ord(word[i])] === undefined) {
                 this.nodes.push(new Node(this.alpha, v, word[i]));
                 this.last_node().index = this.size() - 1;
+                this.last_node().word = v.word + word[i];
                 v.next[ord(word[i])] = this.last_node();
                 this.burr_edges.push(v.index);
                 this.burr_edges.push(this.last_node().index);
@@ -69,10 +79,24 @@ class Trie {
                 node.go_links[ord(char)] = this.get_go_link(this.get_suffix_link(node), char);
             }
         }
-        
+
         auto_links.push(node.index, node.go_links[ord(char)].index);
         type_of_links.push("go");
         return node.go_links[ord(char)];
+    }
+
+    check_for_terminals(node) {
+        if (node.suffix_link === undefined) {
+            const suf_node = this.get_suffix_link(node);
+            this.check_for_terminals(suf_node);
+
+            for (let word of suf_node.suffix_words) {
+                node.suffix_words.push(word);
+            }
+            if (node.is_teminal) {
+                node.suffix_words.push(node.index);
+            }
+        }
     }
 }
 

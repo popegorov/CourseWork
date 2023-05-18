@@ -23,10 +23,12 @@
                     <button id="delete-all">Delete All</button>
                     <button id="build">Build</button>
                     <a>
-                        <img src="./images/debug_on.png" class="debug" id="debug-pic">
+                        <img src="./images/britain.svg.png" class="debug" id="flag-pic">
+                    </a>
+                    <a>
+                        <img src="./images/debug_off.jpg" class="debug" id="debug-pic">
                     </a>
                     <a id="next">
-                        <img src="./images/next.png" class="debug" id="next-pic">
                     </a>
                 </h2>
                 <ul id="pattern-list">
@@ -40,7 +42,7 @@
 
         <div id="cy"></div>
 
-        <div id="text" class="text-block"></div>
+        <div id="text" class="text-block">ushers</div>
 
         <form id="text-form">
             <input id="text-input" type="text" placeholder="Введите текст " />
@@ -51,6 +53,9 @@
             <input id="interval-input" type="text" placeholder="Интервал в милисек " />
             <button type="submit">Применить</button>
         </form>
+
+        <ul id="found-words-list">
+        </ul>
 
         <script src="./globals.js"></script>
         <script src="./algorythm.js"></script>

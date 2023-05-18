@@ -1,9 +1,12 @@
 function update_graph() {
+    text_to_check.innerText = text_to_check.innerText.toLowerCase();
+    found_words.innerHTML = '';
     process_cnt++; // увеличиваем счетчик процессов, чтобы отслеживать новые и завершать старые
     building_cnt = 0; 
     auto_links.length = 0; 
     type_of_links.length = 0; // подгатавливаем глобальные переменные для обновления графа
-    let trie = new Trie(alpha);
+    letters.length = 0;
+    trie = new Trie(alpha);
 
     for (let elem of dictionary) {
         trie.add_word(elem);
@@ -13,10 +16,9 @@ function update_graph() {
 
     let v = trie.root;
     for (let i = 0; i < text.length; i++) {
+        letters.push(type_of_links.length);
         v = trie.get_go_link(v, text[i]);
-        if (v.is_teminal) {
-            console.log(text.slice(i - 5, i + 1));
-        }
+        trie.check_for_terminals(v);
     }
 
     cy = cytoscape({
@@ -36,7 +38,6 @@ function update_graph() {
             })
           .selector('.terminal')
             .css({
-                'line-color': 'red',
                 'background-color': 'aqua',
             })
           .selector('node:selected')
@@ -108,6 +109,35 @@ function update_graph() {
     layout.run(); // перечерчиваем в удобном виде
 }
 
+function newWordFound(id) {
+  const found_word = document.createElement('li');
+  found_word.innerText = trie.nodes[id].word;
+  found_words.append(found_word);
+
+  cy.$(`#${id}`)
+        .animate({
+          style: { 'background-color': 'blue' }
+        }, {
+          duration: interval / 5
+        })
+      
+        .delay( interval / 5 )
+      
+        .animate({
+          style: { 'background-color': 'yellow' }
+        }, {
+          duration: interval / 5
+        })
+
+        .delay( interval / 5 )
+      
+        .animate({
+          style: { 'background-color': 'yellow' }
+        })
+  
+  cy.$(`#${id}`).select();
+}
+
 function buildNextLink() {
   if (building_cnt) {
     let prev_source = auto_links[2 * building_cnt - 2];
@@ -125,15 +155,28 @@ function buildNextLink() {
       cy.$(`#e${source}${target}`).addClass(`${type}`);
     }
     cy.$(`#e${source}${target}`).select(); // выбираем текущую ссылку
+    if (cy.$(`#${target}`).hasClass('terminal') && !cy.$(`#${target}`).selected()) {
+      newWordFound(target);
+    }
     building_cnt++;
+
+    if (letters[cur_letter] < building_cnt) {
+      let str = text_to_check.innerText.toLowerCase();
+      text_to_check.innerText = str.slice(0, cur_letter) + str.slice(cur_letter, cur_letter + 1).toUpperCase() +
+                                str.slice(cur_letter + 1, str.length);
+      cur_letter++;
+    } 
 
     if (!debug) {
       setTimeout(buildNextLink, interval); // в режиме debug_off выставляем временной интервал
     }
+  } else if (process_cnt === my_proccess_id) {
+    text_to_check.innerText = text_to_check.innerText.toLowerCase();
   }
 }
 
 function build_links() {
   my_proccess_id = process_cnt; // устанавливаем значение текущего процесса
+  cur_letter = 0;
   buildNextLink();
 }
