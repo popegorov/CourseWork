@@ -1,15 +1,16 @@
 // глобальные переменные относящиеся к web_functionality
 const build = document.querySelector('#build');
 const debug_pic = document.querySelector('#debug-pic');
-const delete_all = document.querySelector('#delete-all');
+const fast_pic = document.querySelector("#fast");
 const flag_pic = document.querySelector('#flag-pic');
 const found_words = document.querySelector('#found-words-list');
-const interval_form = document.querySelector('#interval-form');
-let interval_input = document.querySelector('#interval-input'); 
-let next_pic = document.querySelector('#next'); // не константы, так как меняем значение в зависимости от debug
+const next_pic = document.querySelector('#next'); // не константы, так как меняем значение в зависимости от debug
+const norm_pic = document.querySelector("#norm");
 const pattern_form = document.querySelector('#pattern-form');
 const pattern_input = document.querySelector('#pattern-input');
 const pattern_list = document.querySelector('#pattern-list');
+const prev_pic = document.querySelector('#prev');
+const slow_pic = document.querySelector("#slow");
 const text_form = document.querySelector('#text-form')
 const text_input = document.querySelector('#text-input');
 const text_to_check = document.querySelector('#text');

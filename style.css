@@ -27,11 +27,55 @@ h1 {
 	padding: 15px;
 	height: 30px;
 	font-size: 22px;
+	margin-top: 20px;
 }
 
 .debug {
     width: 20px;
     height: 20px;
+	margin-left: 10px;
+}
+
+.flag {
+	width: 30px;
+	height: 20px;
+	margin-left: 10px;
+}
+
+.top {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	text-align: center;
+}
+
+.split {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.list-header {
+	text-align: center;
+}
+
+.speed {
+	height: 20px;
+	width: 30px;
+	margin-left: 10px;
+}
+
+.node {
+	height: 40px;
+	width: 40px;
+}
+
+.legend {
+	text-align: right;
+}
+
+.right-header {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	text-align: center;
 }
 
 
@@ -41,7 +85,7 @@ h1 {
 }
 
 #cy {
-    width: 300px;
+    width: full;
     height: 500px;
     display: block;
     background-color: #fff;

@@ -5,11 +5,13 @@ for (let item of dictionary) {
 
 build.addEventListener('click', buildHandler);
 debug_pic.addEventListener('click', debugHandler);
-delete_all.addEventListener('click', deleteAllHandler);
+fast_pic.addEventListener('click', fastHandler);
 flag_pic.addEventListener('click', flagHandler);
-interval_form.addEventListener('submit', intervalHandler);
 next_pic.addEventListener('click', nextHandler);
+norm_pic.addEventListener('click', normHandler);
 pattern_form.addEventListener('submit', patternFormHandler);
+prev_pic.addEventListener('click', prevHandler);
+slow_pic.addEventListener('click', slowHandler);
 text_form.addEventListener('submit', textFormHandler);
 
 update_graph();

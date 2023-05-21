@@ -69,14 +69,8 @@ function buildHandler() {
     build_links();
 }
 
-function intervalHandler(event) {
-    event.preventDefault();
-    update_graph();
-    if (Number(interval_input.value) !== NaN) {
-        interval = Number(interval_input.value);
-    }
-    interval_input.value = '';
-    interval_input.focus();
+function prevHandler() {
+    buildPrevLink();
 }
 
 function nextHandler() {
@@ -87,20 +81,38 @@ function debugHandler() {
     update_graph();
     debug = 1 - debug;
     if (!debug) {
+        prev_pic.innerHTML = '';
         next_pic.innerHTML = '';
 
-        interval_form.innerHTML = '<input id="interval-input" type="text" placeholder="Интервал в милисек " />\n<button type="submit">Применить</button>';
-        interval_input = document.querySelector('#interval-input');
-        interval = 1000;
 
-        this.src = "./images/debug_off.jpg";
+        this.src = "./images/debug/debug_off.png";
     } else {
-        next_pic.innerHTML = '<img src="./images/next.png" class="debug" id="next-pic">';
+        prev_pic.innerHTML = '<img src="./images/debug/prev.png" class="debug" id="prev">';
+        next_pic.innerHTML = '<img src="./images/debug/next.png" class="debug" id="next">';
 
-        interval_form.innerHTML = '';
-
-        this.src = "./images/debug_on.png";
+        this.src = "./images/debug/debug_on.png";
     }
+}
+
+function slowHandler() {
+    slow_pic.innerHTML = '<img src="./images/speed/slow_selected.png" class="speed" id="slow">';
+    norm_pic.innerHTML = '<img src="./images/speed/norm.png" class="speed" id="norm">';
+    fast_pic.innerHTML = '<img src="./images/speed/fast.png" class="speed" id="fast">';
+    interval = 1300;
+}
+
+function normHandler() {
+    slow_pic.innerHTML = '<img src="./images/speed/slow.png" class="speed" id="slow">';
+    norm_pic.innerHTML = '<img src="./images/speed/norm_selected.png" class="speed" id="norm">';
+    fast_pic.innerHTML = '<img src="./images/speed/fast.png" class="speed" id="fast">';
+    interval = 800;
+}
+
+function fastHandler() {
+    slow_pic.innerHTML = '<img src="./images/speed/slow.png" class="speed" id="slow">';
+    norm_pic.innerHTML = '<img src="./images/speed/norm.png" class="speed" id="norm">';
+    fast_pic.innerHTML = '<img src="./images/speed/fast_selected.png" class="speed" id="fast">';
+    interval = 300;
 }
 
 function flagHandler() {
@@ -110,10 +122,8 @@ function flagHandler() {
 
     if (alpha === 33) {
         console.log(alpha);
-        flag_pic.innerHTML = '<img src="./images/russia.svg.png" class="debug" id="next-pic">';
-        this.src = "./images/russia.svg.png";
+        this.src = "./images/flags/russia.svg.png";
     } else {
-        flag_pic.innerHTML = '<img src="./images/britain.svg.png" class="debug" id="next-pic">';
-        this.src = "./images/britain.svg.png";
+        this.src = "./images/flags/britain.svg.png";
     }
 }

@@ -40,9 +40,13 @@ function update_graph() {
             .css({
                 'background-color': 'aqua',
             })
-          .selector('node:selected')
+          .selector('.found')
             .css({
               'background-color': 'yellow',
+            })
+          .selector('node:selected')
+            .css({
+              'background-color': 'pink',
             })
         .selector('edge')
             .css({
@@ -135,7 +139,39 @@ function newWordFound(id) {
           style: { 'background-color': 'yellow' }
         })
   
-  cy.$(`#${id}`).select();
+  cy.$(`#${id}`).addClass('found');
+}
+
+function buildPrevLink() {
+  if (!building_cnt) {
+    return;
+  }
+
+  if (building_cnt != type_of_links.length) {
+    let prev_source = auto_links[2 * building_cnt - 2];
+    let prev_target = auto_links[2 * building_cnt - 1];
+    cy.$(`#e${prev_source}${prev_target}`).unselect(); // убираем выделение у предыдущей ссылки
+    cy.$(`#${prev_target}`).unselect();
+  }
+
+  if (building_cnt < type_of_links.length && process_cnt === my_proccess_id) { // вторая проверка для остановки старого процееса при наличии нового
+    building_cnt -= 2;
+    let type = type_of_links[building_cnt];
+    let source = auto_links[2 * building_cnt];
+    let target = auto_links[2 * building_cnt + 1];
+
+    cy.$(`#e${source}${target}`).select(); // выбираем текущую ссылку
+    cy.$(`#${target}`).select();
+    building_cnt++;
+
+    if (letters[cur_letter - 1] >= building_cnt && building_cnt) {
+      cur_letter -= 2;
+      let str = text_to_check.innerText.toLowerCase();
+      text_to_check.innerText = str.slice(0, cur_letter) + str.slice(cur_letter, cur_letter + 1).toUpperCase() +
+                                str.slice(cur_letter + 1, str.length);
+      cur_letter++;
+    }
+  }
 }
 
 function buildNextLink() {
@@ -143,6 +179,7 @@ function buildNextLink() {
     let prev_source = auto_links[2 * building_cnt - 2];
     let prev_target = auto_links[2 * building_cnt - 1];
     cy.$(`#e${prev_source}${prev_target}`).unselect();
+    cy.$(`#${prev_target}`).unselect();
   } // убираем выделение у предыдущей ссылки
 
   if (building_cnt < type_of_links.length && process_cnt === my_proccess_id) { // вторая проверка для остановки старого процееса при наличии нового
@@ -155,7 +192,8 @@ function buildNextLink() {
       cy.$(`#e${source}${target}`).addClass(`${type}`);
     }
     cy.$(`#e${source}${target}`).select(); // выбираем текущую ссылку
-    if (cy.$(`#${target}`).hasClass('terminal') && !cy.$(`#${target}`).selected()) {
+    cy.$(`#${target}`).select();
+    if (cy.$(`#${target}`).hasClass('terminal') && !cy.$(`#${target}`).hasClass('found')) {
       newWordFound(target);
     }
     building_cnt++;

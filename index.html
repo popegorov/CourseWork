@@ -12,53 +12,103 @@
 	<body>
 
         <header>
-            <h1>Aho Corasick Algorythm</h1>
+            <h1>Aho Corasick Algorithm</h1>
             <div class="project-name">My project</div>
         </header>
 
-        <div class="pattern_list">
+        <div class="top">
             <div>
-                <h2>
-                    Список паттернов для поиска
-                    <button id="delete-all">Delete All</button>
-                    <button id="build">Build</button>
-                    <a>
-                        <img src="./images/britain.svg.png" class="debug" id="flag-pic">
-                    </a>
-                    <a>
-                        <img src="./images/debug_off.jpg" class="debug" id="debug-pic">
-                    </a>
-                    <a id="next">
-                    </a>
-                </h2>
-                <ul id="pattern-list">
-                </ul>
+                LANGUAGE:
+                <a>
+                    <img src="./images/flags/britain.svg.png" class="flag" id="flag-pic">
+                </a>
             </div>
-            <form id="pattern-form">
-                <input id="pattern-input" type="text" placeholder="Введите новый паттерн" />
-                <button type="submit">Добавить паттерн</button>
-            </form>
+            <div>
+                DEBUG MODE:
+                <a>
+                    <img src="./images/debug/debug_off.png" class="debug" id="debug-pic">
+                </a>
+                <a id="prev">
+                </a>
+                <a id="next">
+                </a>
+                <a id="build">
+                    <img src="./images/debug/build.png" class="debug">
+                </a>
+            </div>
+            <div id="speed">
+                SPEED:
+                <a id="slow">
+                    <img src="./images/speed/slow.png" class="speed">
+                </a>
+                <a id="norm">
+                    <img src="./images/speed/norm.png" class="speed">
+                </a>
+                <a id="fast">
+                    <img src="./images/speed/fast.png" class="speed">
+                </a>
+            </div>
         </div>
 
-        <div id="cy"></div>
+        <div class="split">
+            <div class="left">
+                <div class="split">
+                    <div>
+                        <h2 class="list-header">
+                            Patterns to find
+                        </h2>
+                        <ul id="pattern-list">
+                        </ul>
+                        <form id="pattern-form">
+                            <input id="pattern-input" type="text" placeholder="Enter new pattern" />
+                            <button type="submit">Add</button>
+                        </form>
+                    </div>
+                    <div>
+                        <h2 class="list-header">
+                            Found patterns
+                        </h2>
+                        <ul id="found-words-list">
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="text" class="text-block">ushers</div>
+        
+                <form id="text-form">
+                    <input id="text-input" type="text" placeholder="Enter text" />
+                    <button type="submit">Send</button>
+                </form>
 
-        <div id="text" class="text-block">ushers</div>
+                <div class="legend">
+                    <h2>LEGEND:</h2>
+                <div>
+                    Red node - common node
+                </div>
+                <div>
+                    Aqua node - terminal node
+                </div>
+                <div>
+                    Yellow node - found terminal node
+                </div>
+                <div>
+                    Gray edge - burr link
+                </div>
+                <div>
+                    Green edge - suffix link
+                </div>
+                <div>
+                    Blue edge - go link
+                </div>
+            </div>
 
-        <form id="text-form">
-            <input id="text-input" type="text" placeholder="Введите текст " />
-            <button type="submit">Отправить</button>
-        </form>
-
-        <form id="interval-form">
-            <input id="interval-input" type="text" placeholder="Интервал в милисек " />
-            <button type="submit">Применить</button>
-        </form>
-
-        <ul id="found-words-list">
-        </ul>
+                
+            </div>
+            <div id="cy"></div>
+        </div>
 
         <script src="./globals.js"></script>
-        <script src="./algorythm.js"></script>
+        <script src="./algorithm.js"></script>
         <script src="./visual_graph.js"></script>
         <script src="./web_functionality.js"></script>
         <script src="./main.js"></script>
