@@ -55,13 +55,17 @@ class Trie {
         v.is_teminal = true;
     }
 
-    get_suffix_link(node) {
+    get_suffix_link(node, depth) {
         if (node.suffix_link === undefined) {
             if (node === this.root || node.parent === this.root) {
                 node.suffix_link = this.root;
+                comment_to_links.push(10 * depth + 5);
             } else {
-                node.suffix_link = this.get_go_link(this.get_suffix_link(node.parent), node.parent_char)
+                node.suffix_link = this.get_go_link(this.get_suffix_link(node.parent, depth + 1), node.parent_char, depth + 1);
+                comment_to_links.push(10 * depth + 6);
             }
+        } else {
+            comment_to_links.push(10 * depth + 7);
         }
 
         auto_links.push(node.index, node.suffix_link.index);
@@ -69,15 +73,20 @@ class Trie {
         return node.suffix_link;
     }
 
-    get_go_link(node, char) {
+    get_go_link(node, char, depth) {
         if (node.go_links[ord(char)] === undefined) {
             if (node.next[ord(char)] !== undefined) {
                 node.go_links[ord(char)] = node.next[ord(char)]
+                comment_to_links.push(10 * depth + 1);
             } else if (node === this.root) {
                 node.go_links[ord(char)] = this.root;
+                comment_to_links.push(10 * depth + 2);
             } else {
-                node.go_links[ord(char)] = this.get_go_link(this.get_suffix_link(node), char);
+                node.go_links[ord(char)] = this.get_go_link(this.get_suffix_link(node, depth + 1), char, depth + 1);
+                comment_to_links.push(10 * depth + 3);
             }
+        } else {
+            comment_to_links.push(10 * depth + 4);
         }
 
         auto_links.push(node.index, node.go_links[ord(char)].index);
@@ -87,7 +96,7 @@ class Trie {
 
     check_for_terminals(node) {
         if (node.suffix_link === undefined) {
-            const suf_node = this.get_suffix_link(node);
+            const suf_node = this.get_suffix_link(node, 0);
             this.check_for_terminals(suf_node);
 
             for (let word of suf_node.suffix_words) {

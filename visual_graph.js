@@ -1,9 +1,51 @@
+function decode_comment(comment) {
+  if (alpha === 33) {
+    if (comment % 10 === 1) {
+      return `Переходим по ребру бора, так как есть переход по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+    } else if (comment % 10 === 2) {
+      return `Переходим в корень, так как нет перехода по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+    } else if (comment % 10 === 3) {
+      return `Строим автоматную ссылку как переход по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} из суффиксной ссылки предка`
+    } else if (comment % 10 === 4) {
+      return `Переходим по уже построенной ранее автоматной ссылке по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+    } else if (comment % 10 === 5) {
+      return `Строим суффиксную ссылку в корень, так как сами являемся корнем или ближайший предок корень`;
+    } else if (comment % 10 === 6) {
+      return `Строим суффиксную ссылку как переход по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} из суффиксной ссылки предка`;
+    } else if (comment === 7) {
+      return `Переходим по уже построенной суффиксной ссылке`;
+    } else if (comment % 10 === 7) {
+      return `Смотрим на суффиксную ссылку предка`;
+    }
+  } else {
+    if (comment % 10 === 1) {
+      return `We pass along the edge of the bore because there is a transition along the letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+    } else if (comment % 10 === 2) {
+      return `We go to the root because there is no transition by letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+    } else if (comment % 10 === 3) {
+      return `We build a go link as a transition by letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} from suffix link of parent`
+    } else if (comment % 10 === 4) {
+      return `We pass along the go link already built earlier`;
+    } else if (comment % 10 === 5) {
+      return `We build a suffix link to the root because we ourselves are the root or our parent is the root`;
+    } else if (comment % 10 === 6) {
+      return `We build a suffix link as a transition by letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} from suffix link of parent`;
+    } else if (comment === 7) {
+      return `We pass along the suffix link already built earlier`;
+    } else if (comment % 10 === 7) {
+      return `Look at the suffix link of our parent`;
+    }
+  }
+}
+
 function update_graph() {
     text_to_check.innerText = text_to_check.innerText.toLowerCase();
     found_words.innerHTML = '';
+    cur_position.innerHTML = '';
     process_cnt++; // увеличиваем счетчик процессов, чтобы отслеживать новые и завершать старые
     building_cnt = 0; 
-    auto_links.length = 0; 
+    auto_links.length = 0;
+    comment_to_links.length = 0;
     type_of_links.length = 0; // подгатавливаем глобальные переменные для обновления графа
     letters.length = 0;
     trie = new Trie(alpha);
@@ -17,10 +59,11 @@ function update_graph() {
     let v = trie.root;
     for (let i = 0; i < text.length; i++) {
         letters.push(type_of_links.length);
-        v = trie.get_go_link(v, text[i]);
+        v = trie.get_go_link(v, text[i], 0);
         trie.check_for_terminals(v);
     }
 
+    console.log(comment_to_links, type_of_links);
     builded = new Array(type_of_links.length);
     found_cnt = new Array(type_of_links.length);
 
@@ -162,6 +205,8 @@ function buildPrevLink() {
                                 str.slice(cur_letter + 1, str.length);
       cur_letter++;
     }
+
+    cur_position.innerText = decode_comment(comment_to_links[building_cnt - 1]);
   }
 }
 
@@ -182,6 +227,8 @@ function buildNextLink() {
       cy.add({ group: `edges`, data: { id: `e${source}${target}`, source: `${source}`, target: `${target}`}});
       cy.$(`#e${source}${target}`).addClass(`${type}`);
       builded[building_cnt] = `#e${source}${target}`;
+    } else if (cy.$(`#e${source}${target}`).hasClass("suffix") && type == 'go') {
+      cy.$(`#e${source}${target}`).addClass(`${type}`);
     }
     cy.$(`#e${source}${target}`).select(); // выбираем текущую ссылку
     cy.$(`#${target}`).select();
@@ -195,7 +242,9 @@ function buildNextLink() {
       text_to_check.innerText = str.slice(0, cur_letter) + str.slice(cur_letter, cur_letter + 1).toUpperCase() +
                                 str.slice(cur_letter + 1, str.length);
       cur_letter++;
-    } 
+    }
+
+    cur_position.innerText = decode_comment(comment_to_links[building_cnt - 1]);
 
     if (!debug) {
       setTimeout(buildNextLink, interval); // в режиме debug_off выставляем временной интервал
