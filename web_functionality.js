@@ -121,9 +121,36 @@ function flagHandler() {
     alpha = 33 + 26 - alpha;
 
     if (alpha === 33) {
-        console.log(alpha);
         this.src = "./images/flags/russia.svg.png";
+
+        algorithm.innerText = "Алгоритм Ахо-Корасик";
+        project.innerText = "Мой проект";
+        language.innerText = "ЯЗЫК:";
+        debug_mode.innerText = "РЕЖИМ ОТЛАДКИ:";
+        speed.innerText = "СКОРОСТЬ:";
+        to_find.innerText = "Паттерны для поиска";
+        found.innerText = "Найденные паттерны";
+        pattern_input.placeholder = "Введите новый паттерн";
+        add.innerText = "Добавить";
+        text_input.placeholder = "Введите текст";
+        send.innerText = "Отправить";
+        legend.innerHTML = '<h2>ЛЕГЕНДА:</h2><div>Красная вершина - обычный узел</div><div>Водяная вершина - терминальный узел</div><div>Жёлтая вершина - найденный терминальный узел</div><div>Серое ребро - ссылка из бора</div><div>Зелёное ребро - суффиксная ссылка</div><div>Синее ребро - автоматная ссылка</div>';
+
     } else {
         this.src = "./images/flags/britain.svg.png";
+
+        algorithm.innerText = "Aho-Corasick Algorithm";
+        project.innerText = "My project";
+        language.innerText = "LANGUAGE:";
+        debug_mode.innerText = "DEBUG MODE:";
+        speed.innerText = "SPEED:";
+        to_find.innerText = "Patterns to find";
+        found.innerText = "Found patterns";
+        pattern_input.placeholder = "Enter new pattern";
+        add.innerText = "Add";
+        text_input.placeholder = "Enter text";
+        send.innerText = "Send";
+        legend.innerHTML = '<h2>LEGEND:</h2><div>Red vertex - common node</div><div>Aqua vertex - terminal node</div><div>Yellow vertex - found terminal node</div><div>Gray edge - burr link</div><div>Green edge - suffix link</div><div>Blue edge - go link</div>';
+
     }
 }

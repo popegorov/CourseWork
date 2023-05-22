@@ -12,60 +12,70 @@
 	<body>
 
         <header>
-            <h1>Aho Corasick Algorithm</h1>
-            <div class="project-name">My project</div>
+            <h1 id="algorithm">Aho-Corasick Algorithm</h1>
+            <div class="project-name" id="project">My project</div>
         </header>
 
         <div class="top">
-            <div>
-                LANGUAGE:
-                <a>
+            <div class="split">
+                <div class="left" id="language">
+                    LANGUAGE:
+                </div>
+                <a class="right">
                     <img src="./images/flags/britain.svg.png" class="flag" id="flag-pic">
                 </a>
             </div>
-            <div>
-                DEBUG MODE:
-                <a>
-                    <img src="./images/debug/debug_off.png" class="debug" id="debug-pic">
-                </a>
-                <a id="prev">
-                </a>
-                <a id="next">
-                </a>
-                <a id="build">
-                    <img src="./images/debug/build.png" class="debug">
-                </a>
+            <div class="split">
+                <div class="left" id="debug-mode">
+                    DEBUG MODE:
+                </div>
+                <div class="right">
+                    <a>
+                        <img src="./images/debug/debug_off.png" class="debug" id="debug-pic">
+                    </a>
+                    <a id="prev">
+                    </a>
+                    <a id="next">
+                    </a>
+                    <a id="build">
+                        <img src="./images/debug/build.png" class="debug">
+                    </a>
+                </div>
             </div>
-            <div id="speed">
-                SPEED:
-                <a id="slow">
-                    <img src="./images/speed/slow.png" class="speed">
-                </a>
-                <a id="norm">
-                    <img src="./images/speed/norm.png" class="speed">
-                </a>
-                <a id="fast">
-                    <img src="./images/speed/fast.png" class="speed">
-                </a>
+            <div class="split">
+                <div id="speed" class="left">
+                    SPEED:
+                </div>
+                <div class="right">
+                    <a id="slow">
+                        <img src="./images/speed/slow.png" class="speed">
+                    </a>
+                    <a id="norm">
+                        <img src="./images/speed/norm.png" class="speed">
+                    </a>
+                    <a id="fast">
+                        <img src="./images/speed/fast.png" class="speed">
+                    </a>
+                </div>
             </div>
         </div>
 
         <div class="split">
-            <div class="left">
+            <div>
                 <div class="split">
                     <div>
-                        <h2 class="list-header">
+                        <h2 class="list-header" id="to-find">
                             Patterns to find
                         </h2>
                         <ul id="pattern-list">
                         </ul>
                         <form id="pattern-form">
                             <input id="pattern-input" type="text" placeholder="Enter new pattern" />
-                            <button type="submit">Add</button>
+                            <button type="submit" id="add">Add</button>
                         </form>
                     </div>
                     <div>
-                        <h2 class="list-header">
+                        <h2 class="list-header" id="found">
                             Found patterns
                         </h2>
                         <ul id="found-words-list">
@@ -77,19 +87,19 @@
         
                 <form id="text-form">
                     <input id="text-input" type="text" placeholder="Enter text" />
-                    <button type="submit">Send</button>
+                    <button type="submit" id="send">Send</button>
                 </form>
 
-                <div class="legend">
+                <div class="legend" id="legend">
                     <h2>LEGEND:</h2>
                 <div>
-                    Red node - common node
+                    Red vertex - common node
                 </div>
                 <div>
-                    Aqua node - terminal node
+                    Aqua vertex - terminal node
                 </div>
                 <div>
-                    Yellow node - found terminal node
+                    Yellow vertex - found terminal node
                 </div>
                 <div>
                     Gray edge - burr link

@@ -3,6 +3,18 @@ body {
 	line-height: 1.5;
 }
 
+.debug {
+    width: 20px;
+    height: 20px;
+	margin-left: 10px;
+}
+
+.flag {
+	width: 30px;
+	height: 20px;
+	margin-left: 10px;
+}
+
 header {
 	padding: 30px 30px 40px;
 	background-color: #f7e017;
@@ -16,10 +28,47 @@ h1 {
     margin-top: 0;
 }
 
+.left {
+	text-align: right;
+}
+
+.legend {
+	text-align: right;
+}
+
+.list-header {
+	text-align: center;
+}
+
+.node {
+	height: 40px;
+	width: 40px;
+}
+
+.pattern_list {
+	margin-left: 10px;
+    color: blueviolet;
+}
+
 .project-name {
 	font-size: 20px;
 	font-weight: 600;
 	color: #bba800;
+}
+
+.right {
+	text-align: left;
+}
+
+.speed {
+	height: 20px;
+	width: 30px;
+	margin-left: 10px;
+}
+
+.split {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }
 
 .text-block {
@@ -30,58 +79,10 @@ h1 {
 	margin-top: 20px;
 }
 
-.debug {
-    width: 20px;
-    height: 20px;
-	margin-left: 10px;
-}
-
-.flag {
-	width: 30px;
-	height: 20px;
-	margin-left: 10px;
-}
-
 .top {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	text-align: center;
-}
-
-.split {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-}
-
-.list-header {
-	text-align: center;
-}
-
-.speed {
-	height: 20px;
-	width: 30px;
-	margin-left: 10px;
-}
-
-.node {
-	height: 40px;
-	width: 40px;
-}
-
-.legend {
-	text-align: right;
-}
-
-.right-header {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	text-align: center;
-}
-
-
-.pattern_list {
-	margin-left: 10px;
-    color: blueviolet;
 }
 
 #cy {
