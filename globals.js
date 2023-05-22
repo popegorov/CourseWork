@@ -28,11 +28,13 @@ const to_find = document.querySelector('#to-find');
 // глобальные переменные относящиеся к visual_graph и algorithm
 let alpha = 26;
 const auto_links = new Array(0);
+let builded;
 let building_cnt = 0;
 let cur_letter = 0;
 let cy;
 let debug = 0;
 const dictionary = ["he", "she", "his", "hers"];
+let found_cnt;
 let interval = 1000;
 const letters = new Array(0);
 let my_proccess_id;

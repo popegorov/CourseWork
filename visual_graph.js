@@ -21,6 +21,9 @@ function update_graph() {
         trie.check_for_terminals(v);
     }
 
+    builded = new Array(type_of_links.length);
+    found_cnt = new Array(type_of_links.length);
+
     cy = cytoscape({
 
         container: document.getElementById('cy'),
@@ -114,30 +117,10 @@ function update_graph() {
 }
 
 function newWordFound(id) {
+  found_cnt[building_cnt] = 1;
   const found_word = document.createElement('li');
   found_word.innerText = trie.nodes[id].word;
-  found_words.append(found_word);
-
-  cy.$(`#${id}`)
-        .animate({
-          style: { 'background-color': 'blue' }
-        }, {
-          duration: interval / 5
-        })
-      
-        .delay( interval / 5 )
-      
-        .animate({
-          style: { 'background-color': 'yellow' }
-        }, {
-          duration: interval / 5
-        })
-
-        .delay( interval / 5 )
-      
-        .animate({
-          style: { 'background-color': 'yellow' }
-        })
+  found_words.append(found_word);   
   
   cy.$(`#${id}`).addClass('found');
 }
@@ -150,7 +133,15 @@ function buildPrevLink() {
   if (building_cnt != type_of_links.length) {
     let prev_source = auto_links[2 * building_cnt - 2];
     let prev_target = auto_links[2 * building_cnt - 1];
-    cy.$(`#e${prev_source}${prev_target}`).unselect(); // убираем выделение у предыдущей ссылки
+    if (found_cnt[building_cnt - 1] !== undefined) {
+      found_words.lastChild.remove();
+      cy.$(`#${prev_target}`).removeClass('found');
+    }
+    if (builded[building_cnt - 1] !== undefined) {
+      cy.$(`#e${prev_source}${prev_target}`).remove();
+    } else {
+      cy.$(`#e${prev_source}${prev_target}`).unselect();     // убираем выделение у предыдущей ссылки
+    }
     cy.$(`#${prev_target}`).unselect();
   }
 
@@ -190,6 +181,7 @@ function buildNextLink() {
     if (!cy.$(`#e${source}${target}`).isEdge()) {
       cy.add({ group: `edges`, data: { id: `e${source}${target}`, source: `${source}`, target: `${target}`}});
       cy.$(`#e${source}${target}`).addClass(`${type}`);
+      builded[building_cnt] = `#e${source}${target}`;
     }
     cy.$(`#e${source}${target}`).select(); // выбираем текущую ссылку
     cy.$(`#${target}`).select();
