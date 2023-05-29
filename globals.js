@@ -9,6 +9,7 @@ const fast_pic = document.querySelector("#fast");
 const flag_pic = document.querySelector('#flag-pic');
 const found = document.querySelector('#found');
 const found_words = document.querySelector('#found-words-list');
+const header_cur = document.querySelector('#header-cur');
 const language = document.querySelector('#language');
 const legend = document.querySelector('#legend');
 const next_pic = document.querySelector('#next');

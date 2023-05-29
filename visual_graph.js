@@ -1,17 +1,17 @@
 function decode_comment(comment) {
   if (alpha === 33) {
     if (comment % 10 === 1) {
-      return `Переходим по ребру бора, так как есть переход по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+      return `Переходим по ребру бора, так как есть переход по букве "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}"`;
     } else if (comment % 10 === 2) {
-      return `Переходим в корень, так как нет перехода по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+      return `Переходим в корень, так как нет перехода по букве "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}"`;
     } else if (comment % 10 === 3) {
-      return `Строим автоматную ссылку как переход по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} из суффиксной ссылки предка`
+      return `Строим автоматную ссылку как переход по букве "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}" из суффиксной ссылки предка`
     } else if (comment % 10 === 4) {
-      return `Переходим по уже построенной ранее автоматной ссылке по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+      return `Переходим по уже построенной ранее автоматной ссылке по букве "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}"`;
     } else if (comment % 10 === 5) {
       return `Строим суффиксную ссылку в корень, так как сами являемся корнем или ближайший предок корень`;
     } else if (comment % 10 === 6) {
-      return `Строим суффиксную ссылку как переход по букве ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} из суффиксной ссылки предка`;
+      return `Строим суффиксную ссылку как переход по букве "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}" из суффиксной ссылки предка`;
     } else if (comment === 7) {
       return `Переходим по уже построенной суффиксной ссылке`;
     } else if (comment % 10 === 7) {
@@ -19,17 +19,17 @@ function decode_comment(comment) {
     }
   } else {
     if (comment % 10 === 1) {
-      return `We pass along the edge of the bore because there is a transition along the letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+      return `We pass along the edge of the trie because there is a transition along the letter "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}"`;
     } else if (comment % 10 === 2) {
-      return `We go to the root because there is no transition by letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]}`;
+      return `We go to the root because there is no transition by letter "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}"`;
     } else if (comment % 10 === 3) {
-      return `We build a go link as a transition by letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} from suffix link of parent`
+      return `We build a go link as a transition by letter "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}" from suffix link of parent`
     } else if (comment % 10 === 4) {
       return `We pass along the go link already built earlier`;
     } else if (comment % 10 === 5) {
       return `We build a suffix link to the root because we ourselves are the root or our parent is the root`;
     } else if (comment % 10 === 6) {
-      return `We build a suffix link as a transition by letter ${text_to_check.innerText.toLowerCase()[cur_letter - 1]} from suffix link of parent`;
+      return `We build a suffix link as a transition by letter "${text_to_check.innerText.toLowerCase()[cur_letter - 1]}" from suffix link of parent`;
     } else if (comment === 7) {
       return `We pass along the suffix link already built earlier`;
     } else if (comment % 10 === 7) {
@@ -63,7 +63,6 @@ function update_graph() {
         trie.check_for_terminals(v);
     }
 
-    console.log(comment_to_links, type_of_links);
     builded = new Array(type_of_links.length);
     found_cnt = new Array(type_of_links.length);
 

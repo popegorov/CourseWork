@@ -57,6 +57,7 @@ function patternFormHandler(event) {
 
 function textFormHandler(event) {
     event.preventDefault();
+    update_graph();
     if (checkWord(text_input.value.toLowerCase())) {
         text_to_check.innerText = text_input.value.toLowerCase();
     }
@@ -134,8 +135,9 @@ function flagHandler() {
         add.innerText = "Добавить";
         text_input.placeholder = "Введите текст";
         send.innerText = "Отправить";
-        legend.innerHTML = '<h2>ЛЕГЕНДА:</h2><div>Красная вершина - обычный узел</div><div>Водяная вершина - терминальный узел</div><div>Жёлтая вершина - найденный терминальный узел</div><div>Серое ребро - ссылка из бора</div><div>Зелёное ребро - суффиксная ссылка</div><div>Синее ребро - автоматная ссылка</div>';
-
+        legend.innerHTML = '<h2>ЛЕГЕНДА</h2><div>Красная вершина - обычный узел</div><div>Водяная вершина - терминальный узел</div><div>Жёлтая вершина - найденный терминальный узел</div><div>Серое ребро - ссылка из бора</div><div>Зелёное ребро - суффиксная ссылка</div><div>Синее ребро - автоматная ссылка</div>';
+        header_cur.innerText = "Текущая позиция"
+        
     } else {
         this.src = "./images/flags/britain.svg.png";
 
@@ -150,7 +152,7 @@ function flagHandler() {
         add.innerText = "Add";
         text_input.placeholder = "Enter text";
         send.innerText = "Send";
-        legend.innerHTML = '<h2>LEGEND:</h2><div>Red vertex - common node</div><div>Aqua vertex - terminal node</div><div>Yellow vertex - found terminal node</div><div>Gray edge - burr link</div><div>Green edge - suffix link</div><div>Blue edge - go link</div>';
-
+        legend.innerHTML = '<h2>LEGEND</h2><div>Red vertex - common node</div><div>Aqua vertex - terminal node</div><div>Yellow vertex - found terminal node</div><div>Gray edge - burr link</div><div>Green edge - suffix link</div><div>Blue edge - go link</div>';
+        header_cur.innerText = "Current position"
     }
 }
