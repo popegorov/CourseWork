@@ -45,8 +45,8 @@ function patternFormHandler(event) {
     event.preventDefault();
 
     if (checkWord(pattern_input.value.toLowerCase())) {
-        const pattern = createPattern(pattern_input.value);
-        dictionary.push(pattern_input.value);
+        const pattern = createPattern(pattern_input.value.toLowerCase());
+        dictionary.push(pattern_input.value.toLowerCase());
         pattern_list.append(pattern);
     }
 
